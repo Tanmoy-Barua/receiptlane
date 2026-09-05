@@ -242,6 +242,19 @@ export async function lookupCaseStatus(rawReceipt: string): Promise<LookupOutcom
     }
     if (!res.ok) {
       const text = await res.text();
+      const lower = text.toLowerCase();
+      if (
+        res.status === 503 ||
+        lower.includes("unavailable") ||
+        lower.includes("normal operation hours")
+      ) {
+        return {
+          ok: false,
+          code: "UPSTREAM",
+          error:
+            "USCIS Case Status Sandbox is offline right now. It usually runs Monday–Friday, 7:00 AM–8:00 PM Eastern. Try again during those hours.",
+        };
+      }
       return {
         ok: false,
         code: "UPSTREAM",
