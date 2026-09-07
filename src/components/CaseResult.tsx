@@ -77,7 +77,7 @@ export function CaseResult({
 
       <div className="result-actions">
         <button type="button" className="btn-primary" onClick={onTrack}>
-          {alreadyTracked ? "Refresh in tracker" : "Save to my tracker"}
+          {alreadyTracked ? "SYNC TRACKER" : "SAVE TO TRACKER"}
         </button>
         <a
           className="btn-ghost"
@@ -85,7 +85,7 @@ export function CaseResult({
           target="_blank"
           rel="noreferrer"
         >
-          Open official USCIS checker
+          OPEN EGOV.USCIS.GOV
         </a>
       </div>
 

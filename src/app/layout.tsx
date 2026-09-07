@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono, Manrope } from "next/font/google";
+import { IBM_Plex_Mono, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const shareTech = Share_Tech_Mono({
+  variable: "--font-share-tech",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: "400",
 });
 
 const ibmMono = IBM_Plex_Mono({
@@ -33,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${fraunces.variable} ${manrope.variable} ${ibmMono.variable} antialiased`}
-      >
+      <body className={`${shareTech.variable} ${ibmMono.variable} antialiased`}>
         {children}
       </body>
     </html>

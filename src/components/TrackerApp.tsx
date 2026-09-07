@@ -132,10 +132,10 @@ export function TrackerApp() {
         </div>
         <div className="header-meta">
           <span className={`mode-badge ${mode}`}>
-            {mode === "live" ? "Live USCIS API" : "Demo mode"}
+            {mode === "live" ? "LINK: LIVE API" : "LINK: DEMO"}
           </span>
           <a href="#tracked" className="header-link">
-            Tracked cases
+            ./tracked
           </a>
         </div>
       </header>
@@ -145,12 +145,12 @@ export function TrackerApp() {
           <div className="hero-copy">
             <p className="brand-kicker">ReceiptLane</p>
             <h1>
-              Track any USCIS case
+              Intercept any USCIS case
               <span> by receipt number.</span>
             </h1>
             <p className="hero-lede">
-              Look up EAC, WAC, LIN, SRC, MSC, NBC, IOE, YSC, and more — save
-              multiple cases, refresh status, and keep a local timeline.
+              Query EAC / WAC / LIN / SRC / MSC / NBC / IOE / YSC — stash cases
+              locally, refresh status, keep a terminal timeline.
             </p>
           </div>
 
@@ -165,7 +165,7 @@ export function TrackerApp() {
                 inputMode="text"
                 autoComplete="off"
                 spellCheck={false}
-                placeholder="e.g. IOE0912345678"
+                placeholder="RECEIPT_ID e.g. EAC9999103402"
                 value={receipt}
                 onChange={(e) => setReceipt(normalizeReceipt(e.target.value))}
                 maxLength={13}
@@ -176,22 +176,22 @@ export function TrackerApp() {
                 className="btn-primary lookup-btn"
                 disabled={isPending || busyReceipt !== null}
               >
-                {isPending || busyReceipt ? "Checking…" : "Check status"}
+                {isPending || busyReceipt ? "RUNNING…" : "EXECUTE"}
               </button>
             </div>
             <div className="nickname-row">
-              <label htmlFor="nickname">Optional nickname</label>
+              <label htmlFor="nickname">Alias (optional)</label>
               <input
                 id="nickname"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                placeholder="My I-485"
+                placeholder="case_alias"
                 maxLength={60}
               />
             </div>
             {error ? <p className="form-error">{error}</p> : null}
             <div className="sample-row">
-              <span>Try a sample:</span>
+              <span>payloads:</span>
               {DEMO_RECEIPTS.map((sample) => (
                 <button
                   key={sample}
@@ -255,10 +255,9 @@ export function TrackerApp() {
         />
 
         <section className="centers">
-          <h2>Supported receipt types</h2>
+          <h2>// supported_prefixes</h2>
           <p className="muted">
-            Every common USCIS receipt prefix maps to a service center or filing
-            channel.
+            Common USCIS receipt prefixes mapped to service centers.
           </p>
           <ul className="center-grid">
             {Object.entries(RECEIPT_PREFIXES).map(([code, info]) => (

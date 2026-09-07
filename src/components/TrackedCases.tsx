@@ -31,9 +31,9 @@ export function TrackedCases({
     <section className="tracked-panel" id="tracked">
       <div className="tracked-head">
         <div>
-          <h2>Your tracked cases</h2>
+          <h2>./tracked_cases</h2>
           <p className="muted">
-            Stored only in this browser. Refresh anytime to check for updates.
+            Local browser storage only. Refresh to re-query status.
           </p>
         </div>
         <span className="count-pill">{cases.length} saved</span>
