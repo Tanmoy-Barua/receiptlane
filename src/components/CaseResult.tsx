@@ -1,6 +1,7 @@
 "use client";
 
 import { CATEGORY_LABELS, CATEGORY_TONES } from "@/lib/status";
+import { stripHtml } from "@/lib/text";
 import type { CaseStatus, HistoricalStatus } from "@/lib/types";
 
 function formatDate(value: string | null | undefined) {
@@ -28,23 +29,19 @@ export function CaseResult({
   alreadyTracked: boolean;
 }) {
   const tone = CATEGORY_TONES[caseStatus.category];
+  const description = stripHtml(caseStatus.description);
 
   return (
-    <section
-      className="result-panel animate-rise"
-      aria-live="polite"
-    >
-      <div className="result-top">
-        <div>
-          <p className="eyebrow">Current status</p>
-          <h2 className="result-status">{caseStatus.status}</h2>
-          <p className="result-desc">{caseStatus.description}</p>
-        </div>
+    <section className="result-panel animate-rise" aria-live="polite">
+      <div className="result-header">
+        <p className="eyebrow">Current status</p>
         <div className={`status-chip ${tone.bg} ${tone.text} ring-1 ${tone.ring}`}>
           <span className={`status-dot ${tone.bar}`} />
           {CATEGORY_LABELS[caseStatus.category]}
         </div>
       </div>
+      <h2 className="result-status">{stripHtml(caseStatus.status)}</h2>
+      <p className="result-desc">{description}</p>
 
       <dl className="meta-grid">
         <div>
@@ -107,8 +104,8 @@ function StatusTimeline({ items }: { items: HistoricalStatus[] }) {
             <div className="timeline-rail" aria-hidden />
             <div className="timeline-body">
               <p className="timeline-date">{formatDate(item.date)}</p>
-              <p className="timeline-status">{item.status}</p>
-              <p className="timeline-desc">{item.description}</p>
+              <p className="timeline-status">{stripHtml(item.status)}</p>
+              <p className="timeline-desc">{stripHtml(item.description)}</p>
             </div>
           </li>
         ))}

@@ -1,6 +1,7 @@
 import { buildDemoCaseStatus } from "./demo-cases";
 import { categorizeStatus } from "./status";
 import { getServiceCenter, isValidReceipt, normalizeReceipt, parseReceipt } from "./receipt";
+import { stripHtml } from "./text";
 import type { CaseStatus, HistoricalStatus } from "./types";
 
 interface TokenCache {
@@ -88,14 +89,20 @@ function mapHistorical(
   return hist.map((item) => {
     const row = item as Record<string, unknown>;
     return {
-      status: String(row.status ?? row.current_case_status_text_en ?? "Update"),
+      status: stripHtml(
+        String(row.status ?? row.current_case_status_text_en ?? "Update")
+      ),
       date: String(row.date ?? row.modifiedDate ?? "").slice(0, 10),
-      description: String(
-        row.description ?? row.current_case_status_desc_en ?? row.status ?? ""
+      description: stripHtml(
+        String(
+          row.description ?? row.current_case_status_desc_en ?? row.status ?? ""
+        )
       ),
       descriptionEs:
         row.descriptionEsDesc || row.current_case_status_desc_es
-          ? String(row.descriptionEsDesc ?? row.current_case_status_desc_es)
+          ? stripHtml(
+              String(row.descriptionEsDesc ?? row.current_case_status_desc_es)
+            )
           : undefined,
     };
   });
@@ -107,17 +114,21 @@ function normalizeLivePayload(
 ): CaseStatus {
   const nested =
     (payload.case_status as Record<string, unknown> | undefined) ?? payload;
-  const status = String(
-    nested.current_case_status_text_en ??
-      nested.status ??
-      nested.currentStatus ??
-      "Unknown status"
+  const status = stripHtml(
+    String(
+      nested.current_case_status_text_en ??
+        nested.status ??
+        nested.currentStatus ??
+        "Unknown status"
+    )
   );
-  const description = String(
-    nested.current_case_status_desc_en ??
-      nested.description ??
-      nested.details ??
-      status
+  const description = stripHtml(
+    String(
+      nested.current_case_status_desc_en ??
+        nested.description ??
+        nested.details ??
+        status
+    )
   );
   const formType = nested.formType
     ? String(nested.formType)
@@ -143,9 +154,9 @@ function normalizeLivePayload(
     status,
     description,
     descriptionEs: nested.current_case_status_desc_es
-      ? String(nested.current_case_status_desc_es)
+      ? stripHtml(String(nested.current_case_status_desc_es))
       : nested.statusEsDesc
-        ? String(nested.statusEsDesc)
+        ? stripHtml(String(nested.statusEsDesc))
         : null,
     historicalCaseStatuses: historical.length
       ? historical
